@@ -10,24 +10,24 @@ public class LoginForm extends JFrame {
     JTextField user;
     JPasswordField pass;
 
-    public LoginForm(){
+    public LoginForm() {
 
         setTitle("Chat Login");
-        setSize(380,280);
+        setSize(380, 280);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // ===== TITLE =====
-        JLabel title = new JLabel("APP CHAT CÙNG BẠN",SwingConstants.CENTER);
-        title.setFont(new Font("Arial",Font.BOLD,22));
-        title.setBorder(BorderFactory.createEmptyBorder(15,0,10,0));
-        add(title,BorderLayout.NORTH);
+        JLabel title = new JLabel("APP CHAT CÙNG BẠN", SwingConstants.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 22));
+        title.setBorder(BorderFactory.createEmptyBorder(15, 0, 10, 0));
+        add(title, BorderLayout.NORTH);
 
         // ===== PANEL GIỮA =====
         JPanel center = new JPanel();
-        center.setLayout(new GridLayout(2,2,10,10));
-        center.setBorder(BorderFactory.createEmptyBorder(20,40,10,40));
+        center.setLayout(new GridLayout(2, 2, 10, 10));
+        center.setBorder(BorderFactory.createEmptyBorder(20, 40, 10, 40));
 
         center.add(new JLabel("Tên tài khoản"));
         user = new JTextField();
@@ -37,12 +37,12 @@ public class LoginForm extends JFrame {
         pass = new JPasswordField();
         center.add(pass);
 
-        add(center,BorderLayout.CENTER);
+        add(center, BorderLayout.CENTER);
 
         // ===== NÚT LOGIN Ở GIỮA =====
         JButton login = new JButton("ĐĂNG NHẬP");
-        login.setFont(new Font("Arial",Font.BOLD,14));
-        login.setBackground(new Color(70,130,180));
+        login.setFont(new Font("Arial", Font.BOLD, 14));
+        login.setBackground(new Color(70, 130, 180));
         login.setForeground(Color.WHITE);
 
         JPanel loginPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -56,7 +56,7 @@ public class LoginForm extends JFrame {
         register.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JPanel bottom = new JPanel();
-        bottom.setLayout(new GridLayout(2,1));
+        bottom.setLayout(new GridLayout(2, 1));
 
         bottom.add(loginPanel);
 
@@ -66,44 +66,50 @@ public class LoginForm extends JFrame {
 
         bottom.add(registerPanel);
 
-        add(bottom,BorderLayout.SOUTH);
+        add(bottom, BorderLayout.SOUTH);
 
         // ===== LOGIN ACTION =====
-        login.addActionListener(e->{
+        login.addActionListener(e -> {
 
-            try{
+            try {
 
-                String u = user.getText();
-                String p = new String(pass.getPassword());
+                String u = user.getText().trim();
+                String p = new String(pass.getPassword()).trim();
+
+                if (u.isEmpty() || p.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản và mật khẩu!");
+                    return;
+                }
 
                 Client.dos.writeUTF("LOGIN|" + u + "|" + p);
 
                 String res = Client.dis.readUTF();
 
-                if(res.equals("LOGIN_SUCCESS")){
+                if (res.equals("LOGIN_SUCCESS")) {
 
-                    JOptionPane.showMessageDialog(this,"Đăng nhập thành công");
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
 
                     new ChatUI();
 
                     dispose();
 
-                }else{
+                } else {
 
-                    JOptionPane.showMessageDialog(this,"Sai tài khoản");
+                    JOptionPane.showMessageDialog(this, "Sai tài khoản hoặc mật khẩu");
 
                 }
 
-            }catch(Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Lỗi kết nối server!");
             }
 
         });
 
         // ===== CLICK REGISTER =====
-        register.addMouseListener(new MouseAdapter(){
+        register.addMouseListener(new MouseAdapter() {
 
-            public void mouseClicked(MouseEvent e){
+            public void mouseClicked(MouseEvent e) {
 
                 new RegisterForm();
 

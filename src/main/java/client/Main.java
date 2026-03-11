@@ -6,7 +6,8 @@ public class Main {
 
         Client.connect();
 
-        new LoginForm();
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
 
     }
 
