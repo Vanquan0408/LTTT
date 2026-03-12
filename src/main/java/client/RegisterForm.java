@@ -5,6 +5,7 @@
 package client;
 
 import javax.swing.JOptionPane;
+import java.awt.Color;
 
 /**
  *
@@ -80,7 +81,7 @@ public class RegisterForm extends javax.swing.JFrame {
 
         email.addActionListener(this::emailActionPerformed);
 
-        jLabel11.setFont(new java.awt.Font("Sans Serif Collection", 3, 31)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Anton", 3, 31)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(114, 14, 158));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("YEHOO! MESSENGER");
@@ -418,8 +419,8 @@ public class RegisterForm extends javax.swing.JFrame {
     }//GEN-LAST:event_showPassActionPerformed
 
     private void loginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginMouseClicked
-       new LoginForm().setVisible(true);
-dispose(); // TODO add your handling code here:
+        new LoginForm().setVisible(true);
+        dispose();
     }//GEN-LAST:event_loginMouseClicked
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
@@ -438,25 +439,12 @@ dispose(); // TODO add your handling code here:
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new RegisterForm().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            Client.connect();   // thêm dòng này
+            new RegisterForm().setVisible(true);
+        });
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

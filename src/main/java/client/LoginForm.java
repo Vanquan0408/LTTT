@@ -89,7 +89,7 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Để đăng nhập, hãy nhập thông tin và nhấn \"Đăng Nhập\"");
 
-        jLabel1.setFont(new java.awt.Font("Sans Serif Collection", 3, 31)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Anton", 3, 31)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(114, 14, 158));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("YEHOO! MESSENGER");
@@ -201,7 +201,7 @@ public class LoginForm extends javax.swing.JFrame {
                 msg.setText("Đăng nhập thành công");
 
                 javax.swing.Timer timer = new javax.swing.Timer(1500, e -> {
-                    new ChatUI();
+                    new ChatUI(u).setVisible(true);
                     dispose();
                 });
 
@@ -240,26 +240,23 @@ public class LoginForm extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new LoginForm().setVisible(true));
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
+            }
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+
+    java.awt.EventQueue.invokeLater(() -> {
+        Client.connect();
+        new LoginForm().setVisible(true);
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
