@@ -5,6 +5,8 @@
 package client;
 
 import javax.swing.*;
+import javax.swing.JPopupMenu;
+import javax.swing.JMenuItem;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.ListSelectionModel;
@@ -54,15 +56,14 @@ public class ChatUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         bottomPanel = new javax.swing.JPanel();
         inputPanel = new javax.swing.JPanel();
-        iconPanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        emojiBtn = new javax.swing.JButton();
-        fileBtn = new javax.swing.JButton();
-        zipBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         messageField = new javax.swing.JTextField();
         sendBtn = new javax.swing.JButton();
+        iconPanel = new javax.swing.JPanel();
+        fileBtn = new javax.swing.JButton();
+        emojiBtn = new javax.swing.JButton();
+        zipBtn = new javax.swing.JButton();
         centerPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         chatArea = new javax.swing.JTextArea();
@@ -76,7 +77,12 @@ public class ChatUI extends javax.swing.JFrame {
         nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         nameLabel.setText("THANH NHỰT");
 
-        avatarLabel.setBackground(new java.awt.Color(0, 204, 255));
+        avatarLabel.setBackground(new java.awt.Color(102, 204, 255));
+        avatarLabel.setFont(new java.awt.Font("K2D Light", 1, 13)); // NOI18N
+        avatarLabel.setForeground(new java.awt.Color(255, 255, 255));
+        avatarLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        avatarLabel.setText("Avatar");
+        avatarLabel.setOpaque(true);
 
         jLabel1.setFont(new java.awt.Font("Anton", 3, 25)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(114, 14, 158));
@@ -89,7 +95,7 @@ public class ChatUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
                 .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(avatarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -129,63 +135,7 @@ public class ChatUI extends javax.swing.JFrame {
 
         inputPanel.setLayout(new java.awt.BorderLayout());
 
-        iconPanel.setPreferredSize(new java.awt.Dimension(621, 46));
-
-        emojiBtn.setBackground(new java.awt.Color(255, 255, 153));
-        emojiBtn.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        emojiBtn.setText("🙂");
-
-        fileBtn.setBackground(new java.awt.Color(255, 255, 153));
-        fileBtn.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        fileBtn.setText("📎");
-
-        zipBtn.setBackground(new java.awt.Color(255, 255, 153));
-        zipBtn.setFont(new java.awt.Font("SansSerif", 0, 15)); // NOI18N
-        zipBtn.setText("📁");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(emojiBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fileBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(zipBtn)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emojiBtn)
-                    .addComponent(fileBtn)
-                    .addComponent(zipBtn))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout iconPanelLayout = new javax.swing.GroupLayout(iconPanel);
-        iconPanel.setLayout(iconPanelLayout);
-        iconPanelLayout.setHorizontalGroup(
-            iconPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(iconPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(510, Short.MAX_VALUE))
-        );
-        iconPanelLayout.setVerticalGroup(
-            iconPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, iconPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        inputPanel.add(iconPanel, java.awt.BorderLayout.PAGE_START);
-
+        messageField.setFont(new java.awt.Font("Segoe UI Symbol", 0, 13)); // NOI18N
         messageField.setPreferredSize(new java.awt.Dimension(75, 0));
         messageField.addActionListener(this::messageFieldActionPerformed);
 
@@ -204,16 +154,61 @@ public class ChatUI extends javax.swing.JFrame {
                 .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sendBtn)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(messageField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(sendBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sendBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(messageField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 6, Short.MAX_VALUE))
+        );
+
+        iconPanel.setPreferredSize(new java.awt.Dimension(621, 46));
+
+        fileBtn.setBackground(new java.awt.Color(255, 255, 153));
+        fileBtn.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
+        fileBtn.setText("📎");
+        fileBtn.addActionListener(this::fileBtnActionPerformed);
+
+        emojiBtn.setBackground(new java.awt.Color(255, 255, 153));
+        emojiBtn.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
+        emojiBtn.setText("🙂");
+        emojiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                emojiBtnMouseClicked(evt);
+            }
+        });
+        emojiBtn.addActionListener(this::emojiBtnActionPerformed);
+
+        zipBtn.setBackground(new java.awt.Color(255, 255, 153));
+        zipBtn.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
+        zipBtn.setText("📁");
+
+        javax.swing.GroupLayout iconPanelLayout = new javax.swing.GroupLayout(iconPanel);
+        iconPanel.setLayout(iconPanelLayout);
+        iconPanelLayout.setHorizontalGroup(
+            iconPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(iconPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(emojiBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fileBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(zipBtn)
+                .addContainerGap(118, Short.MAX_VALUE))
+        );
+        iconPanelLayout.setVerticalGroup(
+            iconPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(iconPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(iconPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emojiBtn)
+                    .addComponent(fileBtn)
+                    .addComponent(zipBtn))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -221,15 +216,18 @@ public class ChatUI extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 1, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(iconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(iconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         inputPanel.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -242,7 +240,7 @@ public class ChatUI extends javax.swing.JFrame {
 
         chatArea.setEditable(false);
         chatArea.setColumns(20);
-        chatArea.setFont(new java.awt.Font("K2D Light", 0, 13)); // NOI18N
+        chatArea.setFont(new java.awt.Font("Segoe UI Symbol", 0, 13)); // NOI18N
         chatArea.setLineWrap(true);
         chatArea.setRows(5);
         jScrollPane1.setViewportView(chatArea);
@@ -272,7 +270,7 @@ public class ChatUI extends javax.swing.JFrame {
             userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -290,6 +288,58 @@ public class ChatUI extends javax.swing.JFrame {
     private void messageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_messageFieldActionPerformed
+
+    private void emojiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiBtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emojiBtnMouseClicked
+
+    private void emojiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emojiBtnActionPerformed
+        JPopupMenu menu = new JPopupMenu();
+
+    // cho emoji hiển thị ngang
+    menu.setLayout(new java.awt.FlowLayout());
+
+    String[] emojis = {
+        "😀","😁","😂","🤣",
+        "😍","😎","😭","😡",
+        "👍","❤️","🔥","🎉"
+    };
+
+    for (String emoji : emojis) {
+
+        JMenuItem item = new JMenuItem(emoji);
+
+        item.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.PLAIN, 18));
+        item.setBorder(null);
+
+        item.addActionListener(e -> {
+            messageField.setText(messageField.getText() + emoji);
+        });
+
+        menu.add(item);
+    }
+
+    // hiển thị phía trên nút emoji
+    int x = 0;
+    int y = -menu.getPreferredSize().height;
+
+    menu.show(emojiBtn, x, y);        // TODO add your handling code here:
+    }//GEN-LAST:event_emojiBtnActionPerformed
+
+    private void fileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileBtnActionPerformed
+
+        JFileChooser chooser = new JFileChooser();
+
+        int result = chooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+
+            java.io.File file = chooser.getSelectedFile();
+
+            sendFile(file);
+
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_fileBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -360,7 +410,8 @@ public class ChatUI extends javax.swing.JFrame {
 
                     updateUserList(msg.substring(6));
 
-                } else if (msg.startsWith("PRIVATE_FROM|")) {
+                } // ===== CHAT RIÊNG =====
+                else if (msg.startsWith("PRIVATE_FROM|")) {
 
                     String[] parts = msg.split("\\|", 3);
 
@@ -369,10 +420,32 @@ public class ChatUI extends javax.swing.JFrame {
                     String content = parts[2];
 
                     appendToLog(sender, sender + ": " + content);
+                } // ===== NHẬN FILE =====
+                else if (msg.startsWith("FILE_FROM|")) {
 
+                    String[] parts = msg.split("\\|");
+
+                    String sender = parts[1];
+                    String fileName = parts[2];
+
+                    int fileSize = Client.dis.readInt();
+
+                    byte[] data = new byte[fileSize];
+
+                    Client.dis.readFully(data);
+
+                    java.io.FileOutputStream fos
+                            = new java.io.FileOutputStream("downloads_" + fileName);
+
+                    fos.write(data);
+                    fos.close();
+
+                    appendToLog("Tất cả",
+                            sender + " đã gửi file: " + fileName);
                 } else {
 
                     appendToLog("Tất cả", msg);
+
                 }
 
             }
@@ -434,6 +507,7 @@ public class ChatUI extends javax.swing.JFrame {
             if (currentChatTarget.equals("Tất cả")) {
 
                 Client.dos.writeUTF("MSG|" + msg);
+                Client.dos.flush();
 
             } else {
 
@@ -451,6 +525,38 @@ public class ChatUI extends javax.swing.JFrame {
         }
     }
 
+    void sendFile(java.io.File file) {
+
+        try {
+
+            String fileName = file.getName();
+
+            byte[] fileBytes = java.nio.file.Files.readAllBytes(file.toPath());
+
+            if (currentChatTarget.equals("Tất cả")) {
+
+                Client.dos.writeUTF("FILE|" + fileName);
+
+            } else {
+
+                Client.dos.writeUTF("PRIVATE_FILE|" + currentChatTarget + "|" + fileName);
+
+            }
+
+            Client.dos.writeInt(fileBytes.length);
+
+            Client.dos.write(fileBytes);
+
+            Client.dos.flush();
+
+            appendToLog(currentChatTarget, "Tôi đã gửi file: " + fileName);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel avatarLabel;
     private javax.swing.JPanel bottomPanel;
@@ -463,7 +569,6 @@ public class ChatUI extends javax.swing.JFrame {
     private javax.swing.JPanel inputPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
