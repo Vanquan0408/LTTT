@@ -139,7 +139,7 @@ public class ChatUI extends javax.swing.JFrame {
         messageField.setPreferredSize(new java.awt.Dimension(75, 0));
         messageField.addActionListener(this::messageFieldActionPerformed);
 
-        sendBtn.setBackground(new java.awt.Color(0, 153, 255));
+        sendBtn.setBackground(new java.awt.Color(114, 14, 158));
         sendBtn.setFont(new java.awt.Font("K2D Light", 1, 13)); // NOI18N
         sendBtn.setForeground(new java.awt.Color(255, 255, 255));
         sendBtn.setText("Gửi");
@@ -296,34 +296,34 @@ public class ChatUI extends javax.swing.JFrame {
     private void emojiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emojiBtnActionPerformed
         JPopupMenu menu = new JPopupMenu();
 
-    // cho emoji hiển thị ngang
-    menu.setLayout(new java.awt.FlowLayout());
+        // cho emoji hiển thị ngang
+        menu.setLayout(new java.awt.FlowLayout());
 
-    String[] emojis = {
-        "😀","😁","😂","🤣",
-        "😍","😎","😭","😡",
-        "👍","❤️","🔥","🎉"
-    };
+        String[] emojis = {
+            "😀", "😁", "😂", "🤣",
+            "😍", "😎", "😭", "😡",
+            "👍", "❤️", "🔥", "🎉"
+        };
 
-    for (String emoji : emojis) {
+        for (String emoji : emojis) {
 
-        JMenuItem item = new JMenuItem(emoji);
+            JMenuItem item = new JMenuItem(emoji);
 
-        item.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.PLAIN, 18));
-        item.setBorder(null);
+            item.setFont(new java.awt.Font("Segoe UI Emoji", java.awt.Font.PLAIN, 18));
+            item.setBorder(null);
 
-        item.addActionListener(e -> {
-            messageField.setText(messageField.getText() + emoji);
-        });
+            item.addActionListener(e -> {
+                messageField.setText(messageField.getText() + emoji);
+            });
 
-        menu.add(item);
-    }
+            menu.add(item);
+        }
 
-    // hiển thị phía trên nút emoji
-    int x = 0;
-    int y = -menu.getPreferredSize().height;
+        // hiển thị phía trên nút emoji
+        int x = 0;
+        int y = -menu.getPreferredSize().height;
 
-    menu.show(emojiBtn, x, y);        // TODO add your handling code here:
+        menu.show(emojiBtn, x, y);        // TODO add your handling code here:
     }//GEN-LAST:event_emojiBtnActionPerformed
 
     private void fileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileBtnActionPerformed
@@ -420,6 +420,29 @@ public class ChatUI extends javax.swing.JFrame {
                     String content = parts[2];
 
                     appendToLog(sender, sender + ": " + content);
+                } else if (msg.startsWith("PRIVATE_FILE_FROM|")) {
+
+                    String[] parts = msg.split("\\|");
+
+                    String sender = parts[1];
+                    String fileName = parts[2];
+
+                    int fileSize = Client.dis.readInt();
+
+                    byte[] data = new byte[fileSize];
+
+                    Client.dis.readFully(data);
+
+                    java.io.FileOutputStream fos
+                            = new java.io.FileOutputStream("downloads_" + fileName);
+
+                    fos.write(data);
+                    fos.close();
+
+                    // ghi log đúng phòng chat riêng
+                    appendToLog(sender,
+                            sender + " đã gửi file riêng: " + fileName);
+
                 } // ===== NHẬN FILE =====
                 else if (msg.startsWith("FILE_FROM|")) {
 
@@ -442,8 +465,18 @@ public class ChatUI extends javax.swing.JFrame {
 
                     appendToLog("Tất cả",
                             sender + " đã gửi file: " + fileName);
+                } else if (msg.startsWith("MSG_FROM|")) {
+
+                    String[] parts = msg.split("\\|", 3);
+
+                    String sender = parts[1];
+                    String content = parts[2];
+
+                    appendToLog("Tất cả", sender + ": " + content);
+
                 } else {
 
+                    // chat tất cả từ server (không có prefix)
                     appendToLog("Tất cả", msg);
 
                 }
@@ -485,7 +518,14 @@ public class ChatUI extends javax.swing.JFrame {
 
             if (!u.isEmpty()) {
 
-                userModel.addElement(u);
+                String displayName = u;
+
+                // nếu là tài khoản đang đăng nhập
+                if (u.equals(username)) {
+                    displayName = u + " (Bạn)";
+                }
+
+                userModel.addElement(displayName);
 
                 chatLogs.putIfAbsent(u, new StringBuilder());
             }
@@ -514,6 +554,7 @@ public class ChatUI extends javax.swing.JFrame {
                 Client.dos.writeUTF(
                         "PRIVATE|" + currentChatTarget + "|" + msg
                 );
+                Client.dos.flush();
 
                 appendToLog(currentChatTarget, "Tôi: " + msg);
             }
@@ -529,32 +570,35 @@ public class ChatUI extends javax.swing.JFrame {
 
         try {
 
+            String target = userList.getSelectedValue();   // LẤY USER ĐANG CHỌN
             String fileName = file.getName();
 
             byte[] fileBytes = java.nio.file.Files.readAllBytes(file.toPath());
 
-            if (currentChatTarget.equals("Tất cả")) {
+            if (target == null || target.equals("Tất cả")) {
 
                 Client.dos.writeUTF("FILE|" + fileName);
+                Client.dos.flush();
+
+                appendToLog("Tất cả",
+                        "Tôi đã gửi file: " + fileName);
 
             } else {
 
-                Client.dos.writeUTF("PRIVATE_FILE|" + currentChatTarget + "|" + fileName);
+                Client.dos.writeUTF("PRIVATE_FILE|" + target + "|" + fileName);
+                Client.dos.flush();
 
+                appendToLog(target,
+                        "Tôi đã gửi file riêng: " + fileName);
             }
 
             Client.dos.writeInt(fileBytes.length);
-
             Client.dos.write(fileBytes);
-
             Client.dos.flush();
-
-            appendToLog(currentChatTarget, "Tôi đã gửi file: " + fileName);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
