@@ -24,7 +24,8 @@ public class ChatUI extends javax.swing.JFrame {
     String currentChatTarget = "Tất cả";
 
     private Map<String, StringBuilder> chatLogs = new HashMap<>();
-
+    private Map<String, String> lastTimes = new HashMap<>();
+    private String lastTime = "";
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ChatUI.class.getName());
 
     /**
@@ -36,6 +37,9 @@ public class ChatUI extends javax.swing.JFrame {
         this.username = username;
 
         nameLabel.setText(username);
+
+        // Hiển thị chữ cái đầu làm avatar
+        avatarLabel.setText(username.substring(0, 1).toUpperCase());
 
         startChat();
     }
@@ -285,10 +289,6 @@ public class ChatUI extends javax.swing.JFrame {
         sendMessage();  // TODO add your handling code here:
     }//GEN-LAST:event_sendBtnActionPerformed
 
-    private void messageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_messageFieldActionPerformed
-
     private void emojiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiBtnMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_emojiBtnMouseClicked
@@ -341,6 +341,11 @@ public class ChatUI extends javax.swing.JFrame {
         }        // TODO add your handling code here:
     }//GEN-LAST:event_fileBtnActionPerformed
 
+    private void messageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageFieldActionPerformed
+        sendMessage();
+        messageField.setText("");// TODO add your handling code here:
+    }//GEN-LAST:event_messageFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -361,13 +366,16 @@ public class ChatUI extends javax.swing.JFrame {
             logger.log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        java.awt.EventQueue.invokeLater(() -> {
+            new ChatUI("TestUser").setVisible(true);
+        });
     }
 
     private void startChat() {
 
         chatArea.setEditable(false);
         chatArea.setLineWrap(true);
+        chatArea.setWrapStyleWord(true);
 
         userList.setModel(userModel);
 
@@ -383,7 +391,7 @@ public class ChatUI extends javax.swing.JFrame {
 
                 if (selected != null) {
 
-                    currentChatTarget = selected;
+                    currentChatTarget = selected.replace(" (Bạn)", "");
 
                     chatArea.setText(
                             chatLogs.getOrDefault(
@@ -394,6 +402,7 @@ public class ChatUI extends javax.swing.JFrame {
                 }
             }
         });
+        userList.setSelectedIndex(0);
 
         new Thread(this::listenToServer).start();
     }
@@ -472,7 +481,9 @@ public class ChatUI extends javax.swing.JFrame {
                     String sender = parts[1];
                     String content = parts[2];
 
-                    appendToLog("Tất cả", sender + ": " + content);
+                   if (!sender.equals(username)) {
+    appendToLog("Tất cả", sender + ": " + content);
+}
 
                 } else {
 
@@ -491,16 +502,30 @@ public class ChatUI extends javax.swing.JFrame {
     private void appendToLog(String targetKey, String message) {
 
         chatLogs.putIfAbsent(targetKey, new StringBuilder());
+        lastTimes.putIfAbsent(targetKey, "");
 
-        chatLogs.get(targetKey).append(message).append("\n");
+        String time = new java.text.SimpleDateFormat("HH:mm")
+                .format(new java.util.Date());
+
+        StringBuilder log = chatLogs.get(targetKey);
+
+        String lastTime = lastTimes.get(targetKey);
+
+        // nếu phút khác thì hiện thời gian
+        if (!time.equals(lastTime)) {
+
+            log.append("[").append(time).append("]\n");
+
+            lastTimes.put(targetKey, time);
+        }
+
+        log.append(message).append("\n");
 
         if (currentChatTarget.equals(targetKey)) {
 
-            chatArea.append(message + "\n");
+            chatArea.setText(log.toString());
 
-            chatArea.setCaretPosition(
-                    chatArea.getDocument().getLength()
-            );
+            chatArea.setCaretPosition(chatArea.getDocument().getLength());
         }
     }
 
@@ -549,14 +574,16 @@ public class ChatUI extends javax.swing.JFrame {
                 Client.dos.writeUTF("MSG|" + msg);
                 Client.dos.flush();
 
+                appendToLog("Tất cả", "Bạn: " + msg);
+
             } else {
 
-                Client.dos.writeUTF(
-                        "PRIVATE|" + currentChatTarget + "|" + msg
-                );
+                String target = currentChatTarget.replace(" (Bạn)", "");
+
+                Client.dos.writeUTF("PRIVATE|" + target + "|" + msg);
                 Client.dos.flush();
 
-                appendToLog(currentChatTarget, "Tôi: " + msg);
+                appendToLog(target, "Bạn: " + msg);
             }
 
             messageField.setText("");
@@ -570,7 +597,12 @@ public class ChatUI extends javax.swing.JFrame {
 
         try {
 
-            String target = userList.getSelectedValue();   // LẤY USER ĐANG CHỌN
+            String target = userList.getSelectedValue();
+
+            if (target != null) {
+                target = target.replace(" (Bạn)", "");
+            }
+
             String fileName = file.getName();
 
             byte[] fileBytes = java.nio.file.Files.readAllBytes(file.toPath());
@@ -581,7 +613,7 @@ public class ChatUI extends javax.swing.JFrame {
                 Client.dos.flush();
 
                 appendToLog("Tất cả",
-                        "Tôi đã gửi file: " + fileName);
+                        "Bạn đã gửi file: " + fileName);
 
             } else {
 
@@ -589,7 +621,7 @@ public class ChatUI extends javax.swing.JFrame {
                 Client.dos.flush();
 
                 appendToLog(target,
-                        "Tôi đã gửi file riêng: " + fileName);
+                        "Bạn đã gửi file riêng: " + fileName);
             }
 
             Client.dos.writeInt(fileBytes.length);
