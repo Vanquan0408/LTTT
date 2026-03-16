@@ -13,7 +13,7 @@ public class Client {
 
         try{
 
-            socket = new Socket("192.168.137.188",9999);
+            socket = new Socket("192.168.1.4",9999);
 
             dis = new DataInputStream(socket.getInputStream());
 
