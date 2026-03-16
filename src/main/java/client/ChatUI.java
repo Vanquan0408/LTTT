@@ -20,9 +20,11 @@ public class ChatUI extends javax.swing.JFrame {
 
     String username;
     boolean isBold = false;
-boolean isItalic = false;
-boolean isUnderline = false;
+    boolean isItalic = false;
+    boolean isUnderline = false;
 
+    String currentFont = "Arial";
+    int currentSize = 14;
     DefaultListModel<String> userModel = new DefaultListModel<>();
 
     String currentChatTarget = "Tất cả";
@@ -36,8 +38,9 @@ boolean isUnderline = false;
      */
     public ChatUI(String username) {
         initComponents();
-messagePane.setContentType("text/html");
-chatArea.setContentType("text/html");
+        messagePane.setContentType("text/html");
+        messagePane.setText("<html><body></body></html>");
+        chatArea.setContentType("text/html");
         this.username = username;
 
         nameLabel.setText(username);
@@ -70,13 +73,12 @@ chatArea.setContentType("text/html");
         sendBtn = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         messagePane = new javax.swing.JTextPane();
-        iconPanel = new javax.swing.JPanel();
-        fileBtn = new javax.swing.JButton();
-        emojiBtn = new javax.swing.JButton();
-        zipBtn = new javax.swing.JButton();
         formatPanel = new javax.swing.JPanel();
-        boldBtn = new javax.swing.JButton();
+        emojiBtn = new javax.swing.JButton();
+        fileBtn = new javax.swing.JButton();
+        zipBtn = new javax.swing.JButton();
         italicBtn = new javax.swing.JButton();
+        boldBtn = new javax.swing.JButton();
         underlineBtn = new javax.swing.JButton();
         fontBox = new javax.swing.JComboBox<>();
         sizeBox = new javax.swing.JComboBox<>();
@@ -175,57 +177,61 @@ chatArea.setContentType("text/html");
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sendBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(97, 97, 97))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(sendBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sendBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3))
+                .addGap(0, 8, Short.MAX_VALUE))
         );
 
-        iconPanel.setPreferredSize(new java.awt.Dimension(621, 46));
+        formatPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
 
-        fileBtn.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
-        fileBtn.setText("📎");
-        fileBtn.addActionListener(this::fileBtnActionPerformed);
-        iconPanel.add(fileBtn);
-
-        emojiBtn.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
+        emojiBtn.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
         emojiBtn.setText("🙂");
+        emojiBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         emojiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiBtnMouseClicked(evt);
             }
         });
         emojiBtn.addActionListener(this::emojiBtnActionPerformed);
-        iconPanel.add(emojiBtn);
+        formatPanel.add(emojiBtn);
 
-        zipBtn.setFont(new java.awt.Font("SansSerif", 0, 10)); // NOI18N
+        fileBtn.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
+        fileBtn.setText("📎");
+        fileBtn.setPreferredSize(new java.awt.Dimension(40, 30));
+        fileBtn.addActionListener(this::fileBtnActionPerformed);
+        formatPanel.add(fileBtn);
+
+        zipBtn.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
         zipBtn.setText("📁");
-        iconPanel.add(zipBtn);
+        zipBtn.setPreferredSize(new java.awt.Dimension(40, 30));
+        formatPanel.add(zipBtn);
 
-        boldBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        boldBtn.setText("B");
-        boldBtn.addActionListener(this::boldBtnActionPerformed);
-        formatPanel.add(boldBtn);
-
-        italicBtn.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        italicBtn.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
         italicBtn.setText("I");
+        italicBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         italicBtn.addActionListener(this::italicBtnActionPerformed);
         formatPanel.add(italicBtn);
 
-        underlineBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        boldBtn.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        boldBtn.setText("B");
+        boldBtn.setPreferredSize(new java.awt.Dimension(40, 30));
+        boldBtn.addActionListener(this::boldBtnActionPerformed);
+        formatPanel.add(boldBtn);
+
+        underlineBtn.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         underlineBtn.setText("U");
+        underlineBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         underlineBtn.addActionListener(this::underlineBtnActionPerformed);
         formatPanel.add(underlineBtn);
 
@@ -240,35 +246,29 @@ chatArea.setContentType("text/html");
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(formatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(formatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(fontBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(sizeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(iconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(formatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(fontBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sizeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(iconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(sizeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fontBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(formatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         inputPanel.add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -306,7 +306,7 @@ chatArea.setContentType("text/html");
             userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -321,9 +321,52 @@ chatArea.setContentType("text/html");
         sendMessage();  // TODO add your handling code here:
     }//GEN-LAST:event_sendBtnActionPerformed
 
-    private void emojiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiBtnMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_emojiBtnMouseClicked
+
+    private void underlineBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_underlineBtnActionPerformed
+        isUnderline = !isUnderline;
+        applyStyle();
+        Style style = messagePane.addStyle("Underline", null);
+        StyleConstants.setUnderline(style, isUnderline);
+
+        messagePane.setCharacterAttributes(style, false);   // TODO add your handling code here:
+    }//GEN-LAST:event_underlineBtnActionPerformed
+
+    private void fontBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontBoxActionPerformed
+        currentFont = fontBox.getSelectedItem().toString();
+        applyStyle();
+        Style style = messagePane.addStyle("Font", null);
+        StyleConstants.setFontFamily(style, currentFont);
+
+        messagePane.setCharacterAttributes(style, false);
+    }//GEN-LAST:event_fontBoxActionPerformed
+
+    private void boldBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boldBtnActionPerformed
+
+        isBold = !isBold;
+        applyStyle();
+        Style style = messagePane.addStyle("Bold", null);
+        StyleConstants.setBold(style, isBold);
+
+        messagePane.setCharacterAttributes(style, false);    // TODO add your handling code here:
+    }//GEN-LAST:event_boldBtnActionPerformed
+
+    private void italicBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_italicBtnActionPerformed
+        isItalic = !isItalic;
+        applyStyle();
+        Style style = messagePane.addStyle("Italic", null);
+        StyleConstants.setItalic(style, isItalic);
+
+        messagePane.setCharacterAttributes(style, false);     // TODO add your handling code here:
+    }//GEN-LAST:event_italicBtnActionPerformed
+
+    private void sizeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sizeBoxActionPerformed
+        currentSize = Integer.parseInt(sizeBox.getSelectedItem().toString());
+        applyStyle();
+        Style style = messagePane.addStyle("Size", null);
+        StyleConstants.setFontSize(style, currentSize);
+
+        messagePane.setCharacterAttributes(style, false);
+    }//GEN-LAST:event_sizeBoxActionPerformed
 
     private void emojiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emojiBtnActionPerformed
         JPopupMenu menu = new JPopupMenu();
@@ -345,8 +388,8 @@ chatArea.setContentType("text/html");
             item.setBorder(null);
 
             item.addActionListener(e -> {
-    messagePane.replaceSelection(emoji);
-});
+                messagePane.replaceSelection(emoji);
+            });
 
             menu.add(item);
         }
@@ -357,6 +400,10 @@ chatArea.setContentType("text/html");
 
         menu.show(emojiBtn, x, y);        // TODO add your handling code here:
     }//GEN-LAST:event_emojiBtnActionPerformed
+
+    private void emojiBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emojiBtnMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emojiBtnMouseClicked
 
     private void fileBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileBtnActionPerformed
 
@@ -373,82 +420,17 @@ chatArea.setContentType("text/html");
         }        // TODO add your handling code here:
     }//GEN-LAST:event_fileBtnActionPerformed
 
-    private void underlineBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_underlineBtnActionPerformed
-    isUnderline = !isUnderline;
-
-    Style style = messagePane.addStyle("Underline", null);
-    StyleConstants.setUnderline(style, isUnderline);
-
-    messagePane.setCharacterAttributes(style, false);   // TODO add your handling code here:
-    }//GEN-LAST:event_underlineBtnActionPerformed
-
-    private void fontBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontBoxActionPerformed
-String font = fontBox.getSelectedItem().toString();
-
-
-
-Style style = messagePane.addStyle("Font", null);
-
-StyleConstants.setFontFamily(style, font);
-
-messagePane.setCharacterAttributes(style, false);  // TODO add your handling code here:
-    }//GEN-LAST:event_fontBoxActionPerformed
-
-    private void boldBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boldBtnActionPerformed
-
-    isBold = !isBold;
-
-    Style style = messagePane.addStyle("Bold", null);
-    StyleConstants.setBold(style, isBold);
-
-    messagePane.setCharacterAttributes(style, false);    // TODO add your handling code here:
-    }//GEN-LAST:event_boldBtnActionPerformed
-
-    private void italicBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_italicBtnActionPerformed
-    isItalic = !isItalic;
-
-    Style style = messagePane.addStyle("Italic", null);
-    StyleConstants.setItalic(style, isItalic);
-
-    messagePane.setCharacterAttributes(style, false);     // TODO add your handling code here:
-    }//GEN-LAST:event_italicBtnActionPerformed
-
-    private void sizeBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sizeBoxActionPerformed
-      
-int size = Integer.parseInt(sizeBox.getSelectedItem().toString());
-
-
-
-Style style = messagePane.addStyle("Size", null);
-
-StyleConstants.setFontSize(style, size);
-
-messagePane.setCharacterAttributes(style, false);
-    }//GEN-LAST:event_sizeBoxActionPerformed
-
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+
+        Client.connect();   // KẾT NỐI SERVER
+
         java.awt.EventQueue.invokeLater(() -> {
             new ChatUI("TestUser").setVisible(true);
         });
+
     }
 
     private void startChat() {
@@ -471,12 +453,24 @@ messagePane.setCharacterAttributes(style, false);
 
                     currentChatTarget = selected.replace(" (Bạn)", "");
 
-                    chatArea.setText("<html>" +
-    chatLogs.getOrDefault(
-        currentChatTarget,
-        new StringBuilder()
-    ).toString()
-+ "</html>");
+                    chatArea.setText("<html>"
+                            + chatLogs.getOrDefault(
+                                    currentChatTarget,
+                                    new StringBuilder()
+                            ).toString()
+                            + "</html>");
+
+                    try {
+                        if (!currentChatTarget.equals("Tất cả")) {
+                            chatLogs.putIfAbsent(currentChatTarget, new StringBuilder());
+                              chatLogs.put(currentChatTarget, new StringBuilder());
+lastTimes.remove(currentChatTarget);
+                            Client.dos.writeUTF("LOAD_HISTORY|" + currentChatTarget);
+                            Client.dos.flush();
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });
@@ -497,9 +491,19 @@ messagePane.setCharacterAttributes(style, false);
 
                     updateUserList(msg.substring(6));
 
-                }
-                
-// ===== CHAT RIÊNG =====
+                } // ===== LOAD LỊCH SỬ CHAT =====
+                else if (msg.startsWith("HISTORY|")) {
+
+                    String[] parts = msg.split("\\|", 3);
+
+                    String sender = parts[1];
+                    String content = parts[2];
+
+                    String target = sender.equals(username) ? currentChatTarget : sender;
+
+                    appendToLog(target,
+                            "<b>" + sender + ":</b>&nbsp;" + content);
+                } // ===== CHAT RIÊNG =====
                 else if (msg.startsWith("PRIVATE_FROM|")) {
 
                     String[] parts = msg.split("\\|", 3);
@@ -561,18 +565,18 @@ messagePane.setCharacterAttributes(style, false);
                     String sender = parts[1];
                     String content = parts[2];
 
-                   if (!sender.equals(username)) {
-    appendToLog("Tất cả", "<b>" + sender + ":</b>&nbsp;" + content);
-}
+                    if (!sender.equals(username)) {
+                        appendToLog("Tất cả", "<b>" + sender + ":</b>&nbsp;" + content);
+                    }
 
                 } else {
 
-    // nếu tin nhắn không phải của mình thì mới hiển thị
-    if (!msg.startsWith(username + ":")) {
-        appendToLog("Tất cả", msg);
-    }
+                    // nếu tin nhắn không phải của mình thì mới hiển thị
+                    if (!msg.startsWith(username + ":")) {
+                        appendToLog("Tất cả", msg);
+                    }
 
-}
+                }
 
             }
 
@@ -583,98 +587,139 @@ messagePane.setCharacterAttributes(style, false);
 
     private void appendToLog(String targetKey, String message) {
 
-    String time = new java.text.SimpleDateFormat("HH:mm")
-            .format(new java.util.Date());
+        String time = new java.text.SimpleDateFormat("HH:mm")
+                .format(new java.util.Date());
 
-    // nếu chưa có log thì tạo
-    chatLogs.putIfAbsent(targetKey, new StringBuilder());
+        // nếu chưa có log thì tạo
+        chatLogs.putIfAbsent(targetKey, new StringBuilder());
 
-    StringBuilder log = chatLogs.get(targetKey);
+        StringBuilder log = chatLogs.get(targetKey);
 
-    String lastTime = lastTimes.get(targetKey);
+        String lastTime = lastTimes.get(targetKey);
 
-    if (!time.equals(lastTime)) {
+        if (!time.equals(lastTime)) {
 
-        log.append("[").append(time).append("]<br>");
+            log.append("[").append(time).append("]<br>");
 
-        lastTimes.put(targetKey, time);
+            lastTimes.put(targetKey, time);
+        }
+
+        if (message.contains("<b>Bạn:</b>")) {
+            log.append("<div style='color:#720E9E'>")
+                    .append(message)
+                    .append("</div>");
+        } else {
+            log.append(message);
+        }
+
+        log.append("<br>");
+
+        if (currentChatTarget.equals(targetKey)) {
+
+            chatArea.setText("<html>" + log.toString() + "</html>");
+
+            chatArea.setCaretPosition(chatArea.getDocument().getLength());
+        }
     }
-
-    log.append(message).append("<br>");
-
-    if (currentChatTarget.equals(targetKey)) {
-
-        chatArea.setText("<html>" + log.toString() + "</html>");
-
-        chatArea.setCaretPosition(chatArea.getDocument().getLength());
-    }
-}
 
     private void updateUserList(String data) {
 
-    String[] users = data.split(",");
+        String[] users = data.split(",");
 
-    String currentSelection = userList.getSelectedValue();
+        String currentSelection = userList.getSelectedValue();
 
-    userModel.clear();
+        userModel.clear();
 
-    userModel.addElement("Tất cả");
+        userModel.addElement("Tất cả");
 
-    // thêm chính mình trước
-    for (String u : users) {
+        // thêm chính mình trước
+        for (String u : users) {
 
-        if (u.equals(username)) {
+            if (u.equals(username)) {
 
-            userModel.addElement(u + " (Bạn)");
+                userModel.addElement(u + " (Bạn)");
 
-            chatLogs.putIfAbsent(u, new StringBuilder());
+                chatLogs.putIfAbsent(u, new StringBuilder());
+            }
+        }
+
+        // thêm các user còn lại
+        for (String u : users) {
+
+            if (!u.isEmpty() && !u.equals(username)) {
+
+                userModel.addElement(u);
+
+                chatLogs.putIfAbsent(u, new StringBuilder());
+            }
+        }
+
+        userList.setSelectedValue(currentSelection, true);
+    }
+
+    void sendMessage() {
+        try {
+
+            String msg = messagePane.getDocument()
+                    .getText(0, messagePane.getDocument().getLength());
+
+            if (msg.trim().isEmpty()) {
+                return;
+            }
+
+            String style = "";
+
+            if (isBold) {
+                style += "font-weight:bold;";
+            }
+            if (isItalic) {
+                style += "font-style:italic;";
+            }
+            if (isUnderline) {
+                style += "text-decoration:underline;";
+            }
+
+            style += "font-family:" + currentFont + ";";
+            style += "font-size:" + currentSize + "px;";
+
+            msg = "<span style='" + style + "'>" + msg + "</span>";
+
+            messagePane.setText("");
+
+            if (currentChatTarget.equals("Tất cả")) {
+
+                Client.dos.writeUTF("MSG|" + msg);
+                Client.dos.flush();
+
+                appendToLog("Tất cả", "<b>Bạn:</b>&nbsp;" + msg);
+
+            } else {
+
+                String target = currentChatTarget.replace(" (Bạn)", "");
+
+                Client.dos.writeUTF("PRIVATE|" + target + "|" + msg);
+                Client.dos.flush();
+
+                appendToLog(target, "<b>Bạn:</b>&nbsp;" + msg);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    // thêm các user còn lại
-    for (String u : users) {
+    void applyStyle() {
 
-        if (!u.isEmpty() && !u.equals(username)) {
+        Style style = messagePane.addStyle("Style", null);
 
-            userModel.addElement(u);
+        StyleConstants.setBold(style, isBold);
+        StyleConstants.setItalic(style, isItalic);
+        StyleConstants.setUnderline(style, isUnderline);
+        StyleConstants.setFontFamily(style, currentFont);
+        StyleConstants.setFontSize(style, currentSize);
 
-            chatLogs.putIfAbsent(u, new StringBuilder());
-        }
+        messagePane.setCharacterAttributes(style, false);
     }
-
-    userList.setSelectedValue(currentSelection, true);
-}
-
-void sendMessage() {
-    try {
-
-        String msg = messagePane.getDocument().getText(0, messagePane.getDocument().getLength());
-
-        if (msg.trim().isEmpty()) return;
-
-        messagePane.setText("");
-
-        if (currentChatTarget.equals("Tất cả")) {
-
-            Client.dos.writeUTF("MSG|" + msg);
-            Client.dos.flush();
-
-            appendToLog("Tất cả", "<b>Bạn:</b>&nbsp;" + msg);
-
-        } else {
-
-            String target = currentChatTarget.replace(" (Bạn)", "");
-
-            Client.dos.writeUTF("PRIVATE|" + target + "|" + msg);
-            Client.dos.flush();
-
-            appendToLog(target, "<b>Bạn:</b>&nbsp;" + msg);
-        }
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
 
     void sendFile(java.io.File file) {
 
@@ -727,7 +772,6 @@ void sendMessage() {
     private javax.swing.JComboBox<String> fontBox;
     private javax.swing.JPanel formatPanel;
     private javax.swing.JPanel headerPanel;
-    private javax.swing.JPanel iconPanel;
     private javax.swing.JPanel inputPanel;
     private javax.swing.JButton italicBtn;
     private javax.swing.JLabel jLabel1;
