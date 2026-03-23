@@ -31,6 +31,7 @@ public class ChatUI extends javax.swing.JFrame {
 
     private Map<String, StringBuilder> chatLogs = new HashMap<>();
     private Map<String, String> lastTimes = new HashMap<>();
+    private Map<String, byte[]> fileStorage = new HashMap<>();
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ChatUI.class.getName());
 
     /**
@@ -39,6 +40,45 @@ public class ChatUI extends javax.swing.JFrame {
     public ChatUI(String username) {
         initComponents();
         messagePane.setContentType("text/html");
+        chatArea.setEditable(false);
+
+        chatArea.addHyperlinkListener(e -> {
+            if (e.getEventType() == javax.swing.event.HyperlinkEvent.EventType.ACTIVATED) {
+
+                String fileId = e.getDescription().replace("file:", "");
+
+                byte[] data = fileStorage.get(fileId);
+
+                if (data != null) {
+
+                    JFileChooser chooser = new JFileChooser();
+
+                    // lấy lại tên file gốc
+                    String originalName = fileId.split("_", 2)[1];
+                    chooser.setSelectedFile(new java.io.File(originalName));
+
+                    int result = chooser.showSaveDialog(this);
+
+                    if (result == JFileChooser.APPROVE_OPTION) {
+
+                        try {
+                            java.io.File file = chooser.getSelectedFile();
+
+                            java.io.FileOutputStream fos
+                                    = new java.io.FileOutputStream(file);
+
+                            fos.write(data);
+                            fos.close();
+
+                            JOptionPane.showMessageDialog(this, "Đã lưu file!");
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
         messagePane.setText("<html><body></body></html>");
         chatArea.setContentType("text/html");
         this.username = username;
@@ -447,8 +487,8 @@ public class ChatUI extends javax.swing.JFrame {
                     try {
                         if (!currentChatTarget.equals("Tất cả")) {
                             chatLogs.putIfAbsent(currentChatTarget, new StringBuilder());
-                              chatLogs.put(currentChatTarget, new StringBuilder());
-lastTimes.remove(currentChatTarget);
+                            chatLogs.put(currentChatTarget, new StringBuilder());
+                            lastTimes.remove(currentChatTarget);
                             Client.dos.writeUTF("LOAD_HISTORY|" + currentChatTarget);
                             Client.dos.flush();
                         }
@@ -510,15 +550,14 @@ lastTimes.remove(currentChatTarget);
 
                     Client.dis.readFully(data);
 
-                    java.io.FileOutputStream fos
-                            = new java.io.FileOutputStream("downloads_" + fileName);
+                    String fileId = System.currentTimeMillis() + "_" + fileName;
 
-                    fos.write(data);
-                    fos.close();
+// lưu file vào RAM
+                    fileStorage.put(fileId, data);
 
-                    // ghi log đúng phòng chat riêng
+// hiển thị link clickable
                     appendToLog(sender,
-                            sender + " đã gửi file riêng: " + fileName);
+                            "<b>" + sender + ":</b> 📎 <a href='file:" + fileId + "'>" + fileName + "</a>");
 
                 } // ===== NHẬN FILE =====
                 else if (msg.startsWith("FILE_FROM|")) {
@@ -534,14 +573,12 @@ lastTimes.remove(currentChatTarget);
 
                     Client.dis.readFully(data);
 
-                    java.io.FileOutputStream fos
-                            = new java.io.FileOutputStream("downloads_" + fileName);
+                    String fileId = System.currentTimeMillis() + "_" + fileName;
 
-                    fos.write(data);
-                    fos.close();
+                    fileStorage.put(fileId, data);
 
                     appendToLog("Tất cả",
-                            sender + " đã gửi file: " + fileName);
+                            "<b>" + sender + ":</b> 📎 <a href='file:" + fileId + "'>" + fileName + "</a>");
                 } else if (msg.startsWith("MSG_FROM|")) {
 
                     String[] parts = msg.split("\\|", 3);
@@ -716,7 +753,6 @@ lastTimes.remove(currentChatTarget);
             }
 
             String fileName = file.getName();
-
             byte[] fileBytes = java.nio.file.Files.readAllBytes(file.toPath());
 
             if (target == null || target.equals("Tất cả")) {
@@ -724,16 +760,22 @@ lastTimes.remove(currentChatTarget);
                 Client.dos.writeUTF("FILE|" + fileName);
                 Client.dos.flush();
 
+                String fileId = System.currentTimeMillis() + "_" + fileName;
+                fileStorage.put(fileId, fileBytes);
+
                 appendToLog("Tất cả",
-                        "Bạn đã gửi file: " + fileName);
+                        "<b>Bạn:</b> 📎 <a href='file:" + fileId + "'>" + fileName + "</a>");
 
             } else {
 
                 Client.dos.writeUTF("PRIVATE_FILE|" + target + "|" + fileName);
                 Client.dos.flush();
 
+                String fileId = System.currentTimeMillis() + "_" + fileName;
+                fileStorage.put(fileId, fileBytes);
+
                 appendToLog(target,
-                        "Bạn đã gửi file riêng: " + fileName);
+                        "<b>Bạn:</b> 📎 <a href='file:" + fileId + "'>" + fileName + "</a>");
             }
 
             Client.dos.writeInt(fileBytes.length);
