@@ -178,10 +178,10 @@ public class ChatUI extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sendBtn)
-                .addGap(97, 97, 97))
+                .addGap(188, 188, 188))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,11 +193,10 @@ public class ChatUI extends javax.swing.JFrame {
                 .addGap(0, 8, Short.MAX_VALUE))
         );
 
-        formatPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
+        formatPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         emojiBtn.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
         emojiBtn.setText("🙂");
-        emojiBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         emojiBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emojiBtnMouseClicked(evt);
@@ -208,64 +207,49 @@ public class ChatUI extends javax.swing.JFrame {
 
         fileBtn.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
         fileBtn.setText("📎");
-        fileBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         fileBtn.addActionListener(this::fileBtnActionPerformed);
         formatPanel.add(fileBtn);
 
         zipBtn.setFont(new java.awt.Font("Segoe UI Symbol", 0, 18)); // NOI18N
         zipBtn.setText("📁");
-        zipBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         formatPanel.add(zipBtn);
 
-        italicBtn.setFont(new java.awt.Font("Segoe UI", 3, 10)); // NOI18N
+        italicBtn.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
         italicBtn.setText("I");
-        italicBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         italicBtn.addActionListener(this::italicBtnActionPerformed);
         formatPanel.add(italicBtn);
 
-        boldBtn.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        boldBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         boldBtn.setText("B");
-        boldBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         boldBtn.addActionListener(this::boldBtnActionPerformed);
         formatPanel.add(boldBtn);
 
-        underlineBtn.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        underlineBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         underlineBtn.setText("U");
-        underlineBtn.setPreferredSize(new java.awt.Dimension(40, 30));
         underlineBtn.addActionListener(this::underlineBtnActionPerformed);
         formatPanel.add(underlineBtn);
 
         fontBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Arial", "Tahoma", "Times New Roman", "Segoe UI" }));
         fontBox.addActionListener(this::fontBoxActionPerformed);
+        formatPanel.add(fontBox);
 
         sizeBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "12", "14", "16", "18", "20", "24", "28", "32" }));
         sizeBox.addActionListener(this::sizeBoxActionPerformed);
+        formatPanel.add(sizeBox);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(formatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(fontBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(sizeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(60, Short.MAX_VALUE))
+            .addComponent(formatPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sizeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(fontBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(formatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(formatPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(47, Short.MAX_VALUE))
@@ -306,7 +290,7 @@ public class ChatUI extends javax.swing.JFrame {
             userPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
